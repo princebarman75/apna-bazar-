@@ -1,0 +1,764 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Desi Bazar | गाँव से शहर तक</title>
+<meta name="description" content="Desi Bazar पर भारतीय कारीगरों के हस्तनिर्मित उत्पाद, बाँस की टोकरी, मिट्टी के बर्तन और देसी हस्तशिल्प खरीदें।">
+<style>
+:root {
+  --green: #205c3b;
+  --dark: #173d2a;
+  --orange: #e9a23b;
+  --cream: #fffaf1;
+  --text: #26332a;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, "Noto Sans Devanagari", sans-serif;
+  background: #fff;
+  color: var(--text);
+}
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+.topbar {
+  background: var(--dark);
+  color: white;
+  padding: 9px 15px;
+  text-align: center;
+  font-size: 13px;
+}
+header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: space-between;
+  padding: 17px 5%;
+  border-bottom: 1px solid #eee;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #fff;
+}
+.logo { font-size: 27px; font-weight: 900; color: var(--green); }
+.logo span { color: #d98b26; }
+.tagline { font-size: 11px; color: #777; margin-top: 4px; }
+.search {
+  flex: 1;
+  max-width: 450px;
+  display: flex;
+  border: 1px solid #ddd;
+  border-radius: 7px;
+  overflow: hidden;
+}
+.search input { width: 100%; min-width: 0; border: 0; padding: 12px; outline: none; }
+.search button { border: 0; background: var(--green); color: white; padding: 0 16px; }
+.cart-btn {
+  background: var(--cream);
+  color: var(--green);
+  border: 1px solid #e8ddc9;
+  border-radius: 7px;
+  padding: 11px 14px;
+  font-weight: bold;
+}
+nav {
+  display: flex;
+  gap: 25px;
+  padding: 13px 5%;
+  overflow-x: auto;
+  white-space: nowrap;
+  border-bottom: 1px solid #eee;
+}
+nav a { font-size: 14px; font-weight: 600; }
+nav a:hover { color: #c5791c; }
+.hero {
+  background: linear-gradient(100deg, #183f2b 0%, #286044 60%, #8c9d55 100%);
+  color: white;
+  padding: 65px 7%;
+  display: grid;
+  grid-template-columns: 1.15fr .85fr;
+  align-items: center;
+  gap: 30px;
+  min-height: 350px;
+}
+.eyebrow {
+  color: #ffdc9b;
+  font-weight: bold;
+  letter-spacing: 1px;
+  font-size: 13px;
+}
+.hero h1 { font-size: clamp(32px, 4.6vw, 53px); line-height: 1.18; margin: 14px 0; }
+.hero p { color: #e6efe8; line-height: 1.8; max-width: 510px; }
+.hero img {
+  width: 100%; height: 260px; object-fit: cover;
+  border-radius: 12px; border: 3px solid #ffffff30;
+}
+.primary-btn {
+  display: inline-block;
+  border: 0;
+  background: var(--orange);
+  color: #2e281b;
+  padding: 13px 20px;
+  border-radius: 6px;
+  font-weight: bold;
+  margin-top: 12px;
+}
+.section { padding: 42px 5%; }
+.section-head {
+  display: flex; align-items: end;
+  justify-content: space-between; gap: 12px;
+  margin-bottom: 24px;
+}
+.section h2 { font-size: 27px; margin: 0 0 8px; color: var(--dark); }
+.muted { color: #777; font-size: 14px; line-height: 1.6; }
+.categories {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 14px;
+}
+.category {
+  border: 1px solid #eee6d9;
+  border-radius: 10px;
+  text-align: center;
+  padding: 19px 8px;
+  background: var(--cream);
+  cursor: pointer;
+}
+.category:hover { border-color: var(--green); transform: translateY(-2px); }
+.category .emoji { font-size: 35px; display: block; margin-bottom: 12px; }
+.category strong { font-size: 13px; }
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+}
+.product {
+  border: 1px solid #eee;
+  border-radius: 10px;
+  overflow: hidden;
+  background: white;
+  transition: .2s;
+}
+.product:hover { box-shadow: 0 8px 25px #00000010; transform: translateY(-3px); }
+.product img { width: 100%; height: 205px; object-fit: cover; background: #f6f1e8; }
+.product-info { padding: 14px; }
+.pill {
+  display: inline-block; background: #eaf4e9; color: #24613b;
+  padding: 5px 8px; border-radius: 4px; font-size: 11px;
+}
+.product h3 { font-size: 16px; margin: 12px 0 8px; }
+.description { color: #777; font-size: 13px; line-height: 1.6; min-height: 41px; }
+.price { font-size: 20px; font-weight: 800; margin: 13px 0; color: var(--green); }
+.price small { font-size: 12px; font-weight: normal; color: #888; }
+.product-actions { display: flex; gap: 8px; }
+.product-actions button {
+  flex: 1; padding: 10px 5px; border-radius: 5px; font-size: 12px; font-weight: bold;
+}
+.add-btn { background: var(--green); color: white; border: 1px solid var(--green); }
+.details-btn { background: white; color: var(--green); border: 1px solid #ddd; }
+.benefits {
+  background: var(--cream);
+  display: grid; grid-template-columns: repeat(4,1fr);
+  gap: 20px; padding: 30px 5%; text-align: center;
+}
+.benefits strong { display: block; margin: 8px 0; color: var(--dark); }
+.benefits p { color: #777; font-size: 13px; line-height: 1.5; }
+.seller {
+  background: #f3f6ef;
+  padding: 35px 5%;
+  display: flex; justify-content: space-between; align-items: center; gap: 20px;
+}
+.seller h2 { margin-top: 0; color: var(--dark); }
+footer { background: #173d2a; color: white; padding: 35px 5%; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 25px; }
+footer p, footer a { color: #dce6dd; font-size: 14px; line-height: 1.9; }
+footer h3 { margin-top: 0; }
+footer a { display: block; }
+.copyright { border-top: 1px solid #ffffff25; margin-top: 24px; padding-top: 18px; font-size: 12px; }
+.wa-float {
+  position: fixed; right: 18px; bottom: 20px; z-index: 20;
+  background: #20bd62; color: white; border-radius: 30px;
+  padding: 14px 18px; box-shadow: 0 5px 20px #0002; font-weight: bold;
+}
+.modal {
+  display: none; position: fixed; inset: 0; z-index: 50;
+  background: #0008; padding: 15px; overflow-y: auto;
+  align-items: center; justify-content: center;
+}
+.modal.open { display: flex; }
+.modal-card {
+  background: white; width: 100%; max-width: 550px;
+  padding: 24px; border-radius: 12px; max-height: 92vh; overflow-y: auto;
+}
+.modal-header { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.modal-header h2 { color: var(--dark); margin-top: 0; }
+.close { border: 0; background: #eee; border-radius: 50%; width: 35px; height: 35px; }
+.field { margin: 14px 0; }
+.field label { display: block; margin-bottom: 7px; font-weight: bold; font-size: 13px; }
+.field input, .field textarea, .field select {
+  width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px;
+}
+.field textarea { min-height: 75px; resize: vertical; }
+.wide-btn { width: 100%; padding: 13px; border: 0; border-radius: 6px; background: var(--green); color: white; font-weight: bold; }
+.cart-line { display: flex; justify-content: space-between; gap: 10px; padding: 12px 0; border-bottom: 1px solid #eee; }
+.cart-line button { border: 0; color: #a22; background: none; }
+.total { font-size: 20px; font-weight: bold; text-align: right; margin: 18px 0; }
+.empty { padding: 30px; text-align: center; color: #777; }
+@media(max-width:850px) {
+  .categories { grid-template-columns: repeat(3,1fr); }
+  .product-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+  .product img { height: 170px; }
+  .benefits { grid-template-columns: repeat(2,1fr); }
+  .hero { padding: 40px 5%; }
+}
+@media(max-width:560px) {
+  header { flex-wrap: wrap; gap: 12px; padding: 13px 4%; }
+  .logo { font-size: 23px; }
+  .search { order: 3; flex-basis: 100%; max-width: none; }
+  nav { padding: 12px 4%; gap: 20px; }
+  .hero { grid-template-columns: 1fr; padding: 35px 5%; }
+  .hero img { height: 210px; }
+  .section { padding: 30px 4%; }
+  .section h2 { font-size: 23px; }
+  .product h3 { font-size: 14px; }
+  .product-info { padding: 10px; }
+  .product img { height: 145px; }
+  .product-actions { flex-direction: column; }
+  .seller { align-items: flex-start; flex-direction: column; }
+  .footer-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">🌿 गाँव की कला, शहर तक | स्थानीय कारीगरों का समर्थन करें</div>
+
+<header>
+  <a href="#" class="brand">
+    <div class="logo">Desi <span>Bazar</span></div>
+    <div class="tagline">गाँव से शहर तक • Made with ❤️ in India</div>
+  </a>
+  <form class="search" id="searchForm">
+    <input id="searchInput" placeholder="टोकरी, मिट्टी के बर्तन, हस्तशिल्प खोजें..." aria-label="उत्पाद खोजें">
+    <button type="submit">खोजें</button>
+  </form>
+  <button class="cart-btn" id="openCart">🛒 Cart (<span id="cartCount">0</span>)</button>
+</header>
+
+<nav>
+  <a href="#home">होम</a>
+  <a href="#categories">कैटेगरी</a>
+  <a href="#products">सभी उत्पाद</a>
+  <a href="#seller">विक्रेता बनें</a>
+  <a href="#about">हमारे बारे में</a>
+  <a href="#contact">संपर्क</a>
+</nav>
+
+<section class="hero" id="home">
+  <div>
+    <div class="eyebrow">LOCAL ARTISANS • AUTHENTIC PRODUCTS</div>
+    <h1>हर हुनर को मिले पहचान,<br>हर गाँव बने महान!</h1>
+    <p>गाँव के कारीगरों के हाथों से बने अनोखे उत्पाद सीधे आपके घर तक। खरीदें देसी सामान और बढ़ाएँ छोटे व्यवसायों की पहचान।</p>
+    <a class="primary-btn" href="#products">अभी खरीदारी करें →</a>
+  </div>
+  <img src="https://images.unsplash.com/photo-1493106641515-6b5631de4bb9?auto=format&fit=crop&w=900&q=85" alt="हस्तनिर्मित सजावटी उत्पाद">
+</section>
+
+<section class="section" id="categories">
+  <div class="section-head">
+    <div>
+      <h2>हमारी कैटेगरी</h2>
+      <div class="muted">हर उत्पाद में भारतीय कारीगरी की झलक</div>
+    </div>
+  </div>
+  <div class="categories">
+    <button class="category" data-category="टोकरी" onclick="filterCategory('टोकरी')"><span class="emoji">🧺</span><strong>बाँस की टोकरी</strong></button>
+    <button class="category" data-category="मिट्टी" onclick="filterCategory('मिट्टी')"><span class="emoji">🏺</span><strong>मिट्टी के बर्तन</strong></button>
+    <button class="category" data-category="हस्तशिल्प" onclick="filterCategory('हस्तशिल्प')"><span class="emoji">🪔</span><strong>हस्तशिल्प</strong></button>
+    <button class="category" data-category="कपड़े" onclick="filterCategory('कपड़े')"><span class="emoji">🧵</span><strong>हाथ से बने कपड़े</strong></button>
+    <button class="category" data-category="आभूषण" onclick="filterCategory('आभूषण')"><span class="emoji">📿</span><strong>देसी आभूषण</strong></button>
+    <button class="category" data-category="सजावट" onclick="filterCategory('सजावट')"><span class="emoji">🌼</span><strong>घर की सजावट</strong></button>
+  </div>
+</section>
+
+<section class="section" id="products" style="background:#fffdf9">
+  <div class="section-head">
+    <div>
+      <h2>हमारे लोकप्रिय उत्पाद</h2>
+      <div class="muted" id="productSubtitle">कारीगरों के हुनर से बने खास उत्पाद</div>
+    </div>
+    <button class="details-btn" onclick="showAll()">सभी देखें</button>
+  </div>
+  <div class="product-grid" id="productGrid"></div>
+</section>
+
+<section class="benefits">
+  <div><div style="font-size:30px">🤝</div><strong>कारीगरों का साथ</strong><p>छोटे व्यवसायों को बढ़ावा दें।</p></div>
+  <div><div style="font-size:30px">🌿</div><strong>देसी उत्पाद</strong><p>पारंपरिक कला और स्थानीय हुनर।</p></div>
+  <div><div style="font-size:30px">💬</div><strong>WhatsApp ऑर्डर</strong><p>आसानी से ऑर्डर की जानकारी भेजें।</p></div>
+  <div><div style="font-size:30px">🏡</div><strong>गाँव से शहर</strong><p>स्थानीय उत्पादों को नई पहचान।</p></div>
+</section>
+
+<section class="seller" id="seller">
+  <div>
+    <h2>क्या आप गाँव के कारीगर या छोटे व्यापारी हैं?</h2>
+    <p class="muted">अपने उत्पाद Desi Bazar पर दिखाने के लिए हमसे WhatsApp पर संपर्क करें।</p>
+  </div>
+  <button class="primary-btn" onclick="contactSeller()">विक्रेता बनें →</button>
+</section>
+
+<section class="section" id="about">
+  <h2>Desi Bazar के बारे में</h2>
+  <p class="muted" style="max-width:800px">
+    Desi Bazar का उद्देश्य गाँवों के कारीगरों, टोकरी बनाने वालों, कुम्हारों,
+    बुनकरों और छोटे व्यवसायियों के उत्पादों को शहरों के ग्राहकों तक पहुँचाने
+    में मदद करना है। हम पारंपरिक कला, स्थानीय व्यापार और भारतीय हुनर को
+    एक ऑनलाइन मंच देना चाहते हैं।
+  </p>
+</section>
+
+<footer id="contact">
+  <div class="footer-grid">
+    <div>
+      <div class="logo" style="color:white">Desi <span>Bazar</span></div>
+      <p>गाँव से शहर तक। स्थानीय कारीगरों के उत्पादों को डिजिटल बाजार से जोड़ने का एक प्रयास।</p>
+    </div>
+    <div>
+      <h3>Quick Links</h3>
+      <a href="#home">होम</a>
+      <a href="#products">उत्पाद</a>
+      <a href="#seller">विक्रेता बनें</a>
+      <a href="#about">हमारे बारे में</a>
+    </div>
+    <div>
+      <h3>संपर्क करें</h3>
+      <p>WhatsApp / मोबाइल</p>
+      <a href="https://wa.me/917389541104" target="_blank" rel="noopener">+91 7389541104</a>
+      <a href="https://wa.me/917389541104?text=Namaste%20Desi%20Bazar" target="_blank" rel="noopener">WhatsApp पर संदेश भेजें</a>
+    </div>
+  </div>
+  <div class="copyright">© <span id="year"></span> Desi Bazar. All rights reserved.</div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/917389541104?text=Namaste%20Desi%20Bazar%2C%20mujhe%20jaankari%20chahiye." target="_blank" rel="noopener">☏ WhatsApp</a>
+
+<!-- Product details -->
+<div class="modal" id="detailsModal">
+  <div class="modal-card">
+    <div class="modal-header"><h2>उत्पाद की जानकारी</h2><button class="close" onclick="closeModal('detailsModal')">✕</button></div>
+    <div id="detailsContent"></div>
+  </div>
+</div>
+
+<!-- Shopping cart -->
+<div class="modal" id="cartModal">
+  <div class="modal-card">
+    <div class="modal-header"><h2>आपका Shopping Cart</h2><button class="close" onclick="closeModal('cartModal')">✕</button></div>
+    <div id="cartContent"></div>
+  </div>
+</div>
+
+<!-- Checkout form -->
+<div class="modal" id="checkoutModal">
+  <div class="modal-card">
+    <div class="modal-header"><h2>ऑर्डर की जानकारी</h2><button class="close" onclick="closeModal('checkoutModal')">✕</button></div>
+    <p class="muted">अपना सही मोबाइल नंबर और पूरा पता भरें। ऑर्डर WhatsApp पर भेजने से पहले जानकारी जाँच लें।</p>
+    <form id="checkoutForm">
+      <div class="field"><label for="customerName">आपका नाम *</label><input id="customerName" required maxlength="80" autocomplete="name" placeholder="पूरा नाम"></div>
+      <div class="field"><label for="customerPhone">आपका मोबाइल नंबर *</label><input id="customerPhone" required type="tel" inputmode="numeric" pattern="[6-9][0-9]{9}" maxlength="10" autocomplete="tel-national" placeholder="10 अंकों का मोबाइल नंबर"></div>
+      <div class="field"><label for="customerAddress">डिलीवरी का पूरा पता *</label><textarea id="customerAddress" required maxlength="500" autocomplete="street-address" placeholder="मकान नंबर, गाँव/शहर, जिला, राज्य, PIN कोड"></textarea></div>
+      <div class="field"><label for="paymentMethod">भुगतान का तरीका</label><select id="paymentMethod"><option>Cash on Delivery (यदि उपलब्ध हो)</option><option>भुगतान की जानकारी WhatsApp पर पूछूँगा</option></select></div>
+      <div class="field"><label for="customerNote">अतिरिक्त जानकारी (वैकल्पिक)</label><textarea id="customerNote" maxlength="300" placeholder="रंग, आकार या डिलीवरी से जुड़ी जानकारी"></textarea></div>
+      <div id="checkoutSummary" class="muted"></div>
+      <button class="wide-btn" type="submit">📲 WhatsApp पर ऑर्डर भेजें</button>
+      <p class="muted">WhatsApp खुलने पर Send दबाना जरूरी है।</p>
+    </form>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+// दुकान का WhatsApp नंबर: भारत का country code 91
+const WHATSAPP_NUMBER = "917389541104";
+
+// Demo products: वास्तविक कीमत और स्टॉक दुकानदार से पुष्टि करके बदलें।
+const products = [
+  {
+    id: 1, name: "हाथ से बनी बाँस की टोकरी",
+    category: "टोकरी", price: 299, stock: 15,
+    image: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=600&q=80",
+    description: "प्राकृतिक बाँस से बनी बहुउपयोगी टोकरी। घर, रसोई और उपहार के लिए उपयोगी।",
+    artisan: "स्थानीय बाँस कारीगर"
+  },
+  {
+    id: 2, name: "पारंपरिक मिट्टी का घड़ा",
+    category: "मिट्टी", price: 249, stock: 10,
+    image: "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=600&q=80",
+    description: "पारंपरिक शैली का मिट्टी का बर्तन। खरीदने से पहले आकार और उपयोग की पुष्टि करें।",
+    artisan: "स्थानीय कुम्हार"
+  },
+  {
+    id: 3, name: "हस्तनिर्मित सजावटी दीया",
+    category: "हस्तशिल्प", price: 149, stock: 25,
+    image: "https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&w=600&q=80",
+    description: "त्योहारों और घर की सजावट के लिए पारंपरिक शैली के दीये।",
+    artisan: "स्थानीय हस्तशिल्प कलाकार"
+  },
+  {
+    id: 4, name: "हाथ से बुना देसी कपड़ा",
+    category: "कपड़े", price: 499, stock: 8,
+    image: "https://images.unsplash.com/photo-1605000797499-95a51c5269ae?auto=format&fit=crop&w=600&q=80",
+    description: "पारंपरिक प्रेरणा वाला कपड़ा। वास्तविक फैब्रिक और माप विक्रेता से पूछें।",
+    artisan: "स्थानीय बुनकर"
+  },
+  {
+    id: 5, name: "हस्तनिर्मित मनकों की माला",
+    category: "आभूषण", price: 199, stock: 12,
+    image: "https://images.unsplash.com/photo-1611652022419-a9419f74343d?auto=format&fit=crop&w=600&q=80",
+    description: "पारंपरिक अंदाज में तैयार की गई सजावटी माला।",
+    artisan: "स्थानीय शिल्पकार"
+  },
+  {
+    id: 6, name: "देसी घर सजावट शोपीस",
+    category: "सजावट", price: 349, stock: 9,
+    image: "https://images.unsplash.com/photo-1490312278390-ab64016e0aa9?auto=format&fit=crop&w=600&q=80",
+    description: "घर, ऑफिस या उपहार के लिए सजावटी हस्तशिल्प।",
+    artisan: "स्थानीय कलाकार"
+  },
+  {
+    id: 7, name: "बाँस का छोटा स्टोरेज बॉक्स",
+    category: "टोकरी", price: 199, stock: 14,
+    image: "https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&w=600&q=80",
+    description: "छोटी वस्तुओं को व्यवस्थित रखने के लिए प्राकृतिक शैली का बॉक्स।",
+    artisan: "स्थानीय बाँस कारीगर"
+  },
+  {
+    id: 8, name: "हस्तनिर्मित मिट्टी की सजावट",
+    category: "मिट्टी", price: 179, stock: 11,
+    image: "https://images.unsplash.com/photo-1493106641515-6b5631de4bb9?auto=format&fit=crop&w=600&q=80",
+    description: "पारंपरिक कला से प्रेरित घर सजाने का उत्पाद।",
+    artisan: "स्थानीय कुम्हार"
+  }
+];
+
+let cart = [];
+let currentProducts = [...products];
+
+const money = amount => "₹" + amount.toLocaleString("en-IN");
+const findProduct = id => products.find(p => p.id === Number(id));
+
+function renderProducts(items) {
+  const grid = document.getElementById("productGrid");
+  if (!items.length) {
+    grid.innerHTML = '<div class="empty" style="grid-column:1/-1">कोई उत्पाद नहीं मिला। दूसरे शब्दों में खोजें।</div>';
+    return;
+  }
+
+  grid.replaceChildren();
+  items.forEach(p => {
+    const card = document.createElement("article");
+    card.className = "product";
+
+    const img = document.createElement("img");
+    img.src = p.image;
+    img.alt = p.name;
+    img.loading = "lazy";
+    img.onerror = () => {
+      img.onerror = null;
+      img.src = "https://placehold.co/600x400/f5efe3/205c3b?text=Desi+Bazar";
+    };
+
+    const info = document.createElement("div");
+    info.className = "product-info";
+    info.innerHTML = `
+      <span class="pill">${p.category}</span>
+      <h3></h3>
+      <div class="description"></div>
+      <div class="price"></div>
+      <div class="product-actions">
+        <button class="add-btn">+ कार्ट में डालें</button>
+        <button class="details-btn">विवरण देखें</button>
+      </div>`;
+    info.querySelector("h3").textContent = p.name;
+    info.querySelector(".description").textContent = p.description;
+    info.querySelector(".price").textContent = money(p.price);
+
+    info.querySelector(".add-btn").addEventListener("click", () => addToCart(p.id));
+    info.querySelector(".details-btn").addEventListener("click", () => showDetails(p.id));
+
+    card.append(img, info);
+    grid.appendChild(card);
+  });
+}
+
+function filterCategory(category) {
+  currentProducts = products.filter(p => p.category === category);
+  document.getElementById("productSubtitle").textContent = category + " के उत्पाद";
+  renderProducts(currentProducts);
+  document.getElementById("products").scrollIntoView({ behavior: "smooth" });
+}
+
+function showAll() {
+  currentProducts = [...products];
+  document.getElementById("productSubtitle").textContent = "कारीगरों के हुनर से बने खास उत्पाद";
+  renderProducts(currentProducts);
+}
+
+document.getElementById("searchForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const query = document.getElementById("searchInput").value.trim().toLocaleLowerCase("hi");
+  currentProducts = products.filter(p =>
+    (p.name + " " + p.category + " " + p.description + " " + p.artisan)
+      .toLocaleLowerCase("hi").includes(query)
+  );
+  document.getElementById("productSubtitle").textContent =
+    query ? '"' + query + '" के खोज परिणाम' : "सभी उत्पाद";
+  renderProducts(currentProducts);
+  document.getElementById("products").scrollIntoView({ behavior: "smooth" });
+});
+
+function addToCart(id) {
+  const p = findProduct(id);
+  if (!p) return;
+  const existing = cart.find(item => item.id === p.id);
+  if (existing) {
+    if (existing.qty >= p.stock) {
+      alert("डेमो स्टॉक में इससे अधिक मात्रा उपलब्ध नहीं है।");
+      return;
+    }
+    existing.qty++;
+  } else {
+    cart.push({ id: p.id, qty: 1 });
+  }
+  updateCartCount();
+  alert(p.name + " कार्ट में जोड़ दिया गया!");
+}
+
+function updateCartCount() {
+  document.getElementById("cartCount").textContent =
+    cart.reduce((sum, item) => sum + item.qty, 0);
+}
+
+function cartTotal() {
+  return cart.reduce((sum, item) => {
+    const p = findProduct(item.id);
+    return sum + (p ? p.price * item.qty : 0);
+  }, 0);
+}
+
+function renderCart() {
+  const box = document.getElementById("cartContent");
+  box.replaceChildren();
+
+  if (!cart.length) {
+    box.innerHTML = '<div class="empty">🛒 आपका कार्ट अभी खाली है।<br>पसंदीदा उत्पाद जोड़ें।</div>';
+    return;
+  }
+
+  cart.forEach(item => {
+    const p = findProduct(item.id);
+    if (!p) return;
+
+    const line = document.createElement("div");
+    line.className = "cart-line";
+    const info = document.createElement("div");
+    const title = document.createElement("strong");
+    title.textContent = p.name;
+    const price = document.createElement("div");
+    price.className = "muted";
+    price.textContent = money(p.price) + " प्रति उत्पाद";
+
+    const qty = document.createElement("div");
+    qty.style.marginTop = "8px";
+    const minus = document.createElement("button");
+    minus.textContent = "−";
+    minus.setAttribute("aria-label", "मात्रा घटाएँ");
+    const count = document.createElement("strong");
+    count.textContent = "  " + item.qty + "  ";
+    const plus = document.createElement("button");
+    plus.textContent = "+";
+    plus.setAttribute("aria-label", "मात्रा बढ़ाएँ");
+    const remove = document.createElement("button");
+    remove.textContent = "हटाएँ";
+
+    minus.addEventListener("click", () => changeQty(item.id, -1));
+    plus.addEventListener("click", () => changeQty(item.id, 1));
+    remove.addEventListener("click", () => {
+      cart = cart.filter(x => x.id !== item.id);
+      updateCartCount();
+      renderCart();
+    });
+
+    qty.append(minus, count, plus);
+    info.append(title, price, qty);
+    line.append(info, remove);
+    box.append(line);
+  });
+
+  const total = document.createElement("div");
+  total.className = "total";
+  total.textContent = "कुल: " + money(cartTotal());
+  const checkout = document.createElement("button");
+  checkout.className = "wide-btn";
+  checkout.textContent = "आगे बढ़ें — ऑर्डर करें";
+  checkout.addEventListener("click", () => openCheckout());
+  box.append(total, checkout);
+}
+
+function changeQty(id, delta) {
+  const item = cart.find(x => x.id === id);
+  const p = findProduct(id);
+  if (!item || !p) return;
+  const next = item.qty + delta;
+  if (next > p.stock) {
+    alert("डेमो स्टॉक में इससे अधिक मात्रा उपलब्ध नहीं है।");
+    return;
+  }
+  if (next <= 0) cart = cart.filter(x => x.id !== id);
+  else item.qty = next;
+  updateCartCount();
+  renderCart();
+}
+
+function showDetails(id) {
+  const p = findProduct(id);
+  if (!p) return;
+  const box = document.getElementById("detailsContent");
+  box.replaceChildren();
+
+  const img = document.createElement("img");
+  img.src = p.image;
+  img.alt = p.name;
+  img.style.cssText = "width:100%;height:220px;object-fit:cover;border-radius:8px";
+  const name = document.createElement("h3");
+  name.textContent = p.name;
+  const description = document.createElement("p");
+  description.textContent = p.description;
+  const artisan = document.createElement("p");
+  artisan.textContent = "कारीगर: " + p.artisan;
+  const price = document.createElement("h3");
+  price.textContent = money(p.price);
+  const stock = document.createElement("p");
+  stock.className = "muted";
+  stock.textContent = "डेमो स्टॉक: " + p.stock + " | वास्तविक स्टॉक विक्रेता से पुष्टि करें।";
+  const btn = document.createElement("button");
+  btn.className = "wide-btn";
+  btn.textContent = "कार्ट में जोड़ें";
+  btn.addEventListener("click", () => {
+    addToCart(id);
+    closeModal("detailsModal");
+  });
+  box.append(img, name, description, artisan, price, stock, btn);
+  openModal("detailsModal");
+}
+
+function openModal(id) {
+  document.getElementById(id).classList.add("open");
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove("open");
+}
+
+document.getElementById("openCart").addEventListener("click", () => {
+  renderCart();
+  openModal("cartModal");
+});
+
+function openCheckout() {
+  if (!cart.length) {
+    alert("पहले कार्ट में कोई उत्पाद जोड़ें।");
+    return;
+  }
+  document.getElementById("checkoutSummary").textContent =
+    "उत्पादों की कीमत: " + money(cartTotal()) +
+    ". डिलीवरी शुल्क, यदि लागू हो, WhatsApp पर पुष्टि होगा।";
+  closeModal("cartModal");
+  openModal("checkoutModal");
+}
+
+document.getElementById("checkoutForm").addEventListener("submit", e => {
+  e.preventDefault();
+  if (!cart.length) {
+    alert("आपका कार्ट खाली है।");
+    closeModal("checkoutModal");
+    return;
+  }
+
+  const name = document.getElementById("customerName").value.trim();
+  const phone = document.getElementById("customerPhone").value.trim();
+  const address = document.getElementById("customerAddress").value.trim();
+  const payment = document.getElementById("paymentMethod").value;
+  const note = document.getElementById("customerNote").value.trim();
+
+  if (!name || !address || !/^[6-9][0-9]{9}$/.test(phone)) {
+    alert("कृपया अपना नाम, सही 10 अंकों का भारतीय मोबाइल नंबर और पूरा पता भरें।");
+    return;
+  }
+
+  const lines = cart.map(item => {
+    const p = findProduct(item.id);
+    return p ? `• ${p.name} × ${item.qty} = ${money(p.price * item.qty)}` : "";
+  }).filter(Boolean);
+
+  const orderId = "DB" + Date.now().toString().slice(-8);
+  const message = [
+    "🛍️ *नया ऑर्डर — Desi Bazar*",
+    "ऑर्डर संदर्भ: " + orderId,
+    "",
+    "*ग्राहक का नाम:* " + name,
+    "*ग्राहक मोबाइल:* " + phone,
+    "*डिलीवरी पता:* " + address,
+    "",
+    "*ऑर्डर किए गए उत्पाद:*",
+    ...lines,
+    "",
+    "*उत्पादों का कुल:* " + money(cartTotal()),
+    "*डिलीवरी शुल्क:* अलग से पुष्टि करें",
+    "*भुगतान:* " + payment,
+    "*अतिरिक्त जानकारी:* " + (note || "कोई नहीं"),
+    "",
+    "कृपया ऑर्डर, उपलब्धता और डिलीवरी की पुष्टि करें।"
+  ].join("\n");
+
+  const whatsappURL =
+    "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
+
+  // ग्राहक को WhatsApp पर भेजा जाता है; संदेश भेजने के लिए ग्राहक को Send दबाना होगा।
+  const popup = window.open(whatsappURL, "_blank");
+  if (!popup) {
+    window.location.href = whatsappURL;
+    return;
+  }
+
+  alert("WhatsApp खुल गया है। कृपया संदेश जाँचकर Send दबाएँ।");
+});
+
+function contactSeller() {
+  const message = "Namaste Desi Bazar! Main ek local seller hoon. Main apne products aapki website par list karwana chahta/chahti hoon. Kripya process batayein.";
+  window.open(
+    "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message),
+    "_blank"
+  );
+}
+
+document.querySelectorAll(".modal").forEach(modal => {
+  modal.addEventListener("click", e => {
+    if (e.target === modal) modal.classList.remove("open");
+  });
+});
+
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") {
+    document.querySelectorAll(".modal.open").forEach(m => m.classList.remove("open"));
+  }
+});
+
+document.getElementById("year").textContent = new Date().getFullYear();
+renderProducts(products);
+</script>
+</body>
+</html>
